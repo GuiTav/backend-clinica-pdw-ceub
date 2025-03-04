@@ -1,5 +1,6 @@
 package ads.pwe.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -9,6 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 @Data
@@ -23,6 +25,9 @@ public class Profissional {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JsonManagedReference
-    private List<Especialidade> especialidades;
+    private List<Especialidade> especialidades = new ArrayList<>();
+
+    @OneToMany
+    private List<Agendamento> agendamentos = new ArrayList<>();
 
 }

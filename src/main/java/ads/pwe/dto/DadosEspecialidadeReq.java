@@ -1,5 +1,7 @@
 package ads.pwe.dto;
 
-public record DadosEspecialidadeReq(String nomeEspecialidade) {
+public record DadosEspecialidadeReq(
+    String nomeEspecialidade
+) {
     
 }

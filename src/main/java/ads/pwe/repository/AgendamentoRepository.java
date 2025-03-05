@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import ads.pwe.dto.DadosAgendamentoReq;
 import ads.pwe.model.Agendamento;
+import ads.pwe.model.Operacao;
 import ads.pwe.model.Paciente;
 import ads.pwe.model.Profissional;
 import ads.pwe.util.LocalDateTimeUtils;
@@ -36,6 +37,7 @@ public class AgendamentoRepository implements PanacheRepositoryBase<Agendamento,
         var fimAgendamento = inicioAgendamento.plusMinutes(operacao.getDuracaoMinutosOperacao());
 
         validarPeriodoAgendamento(paciente, profissional, inicioAgendamento, fimAgendamento);
+        validarEspecialidade(profissional, operacao);
 
         var agendamento = new Agendamento();
         agendamento.setPaciente(paciente);
@@ -57,6 +59,7 @@ public class AgendamentoRepository implements PanacheRepositoryBase<Agendamento,
         var fimAgendamento = inicioAgendamento.plusMinutes(operacao.getDuracaoMinutosOperacao());
 
         validarPeriodoAgendamento(paciente, profissional, inicioAgendamento, fimAgendamento);
+        validarEspecialidade(profissional, operacao);
 
         agendamento.setPaciente(paciente);
         agendamento.setOperacao(operacao);
@@ -89,6 +92,18 @@ public class AgendamentoRepository implements PanacheRepositoryBase<Agendamento,
 
         if (!agendamentosProfissionalNoPeriodo.isEmpty()) {
             throw new BadRequestException("O profissional já possui agendamentos no período");
+        }
+    }
+
+    public void validarEspecialidade(Profissional profissional, Operacao operacao) {
+        var profissionalPossuiEspecialidade = profissional.getEspecialidades().contains(
+            operacao.getEspecialidade()
+        );
+
+        if (!profissionalPossuiEspecialidade) {
+            throw new BadRequestException(
+                "O profissional selecionado não pode executar funções nesta especialidade"
+            );
         }
     }
 

@@ -8,7 +8,7 @@ import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 
 import ads.pwe.dto.DadosOperacaoReq;
-import ads.pwe.model.Operacao;
+import ads.pwe.dto.DadosOperacaoRes;
 import ads.pwe.repository.OperacaoRepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
@@ -27,27 +27,36 @@ public class OperacaoResource {
     OperacaoRepository operacaoRepository;
 
     @GET
-    public List<Operacao> listarOperacoes() {
-        return operacaoRepository.listAll();
+    public List<DadosOperacaoRes> listarOperacoes() {
+        return operacaoRepository.listAll()
+            .stream()
+            .map(operacao -> new DadosOperacaoRes(operacao))
+            .toList();
     }
 
     @GET
     @Path("/{idOperacao}")
-    public Operacao encontrarOperacao(@RestPath Integer idOperacao) {
-        return operacaoRepository.encontrarOperacaoPorId(idOperacao);
+    public DadosOperacaoRes encontrarOperacao(@RestPath Integer idOperacao) {
+        return new DadosOperacaoRes(
+            operacaoRepository.encontrarOperacaoPorId(idOperacao)
+        );
     }
 
     @POST
-    public Operacao criarOperacao(DadosOperacaoReq dados) {
-        return operacaoRepository.salvarOperacao(dados);
+    public DadosOperacaoRes criarOperacao(DadosOperacaoReq dados) {
+        return new DadosOperacaoRes(
+            operacaoRepository.salvarOperacao(dados)
+        );
     }
 
     @PUT
     @Path("/{idOperacao}")
-    public Operacao editarOperacao(
+    public DadosOperacaoRes editarOperacao(
         @RestPath Integer idOperacao,
         DadosOperacaoReq dados) {
-        return operacaoRepository.editarOperacao(idOperacao, dados);
+        return new DadosOperacaoRes(
+            operacaoRepository.editarOperacao(idOperacao, dados)
+        );
     }
 
     @DELETE

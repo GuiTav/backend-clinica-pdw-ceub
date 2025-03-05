@@ -8,7 +8,7 @@ import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 
 import ads.pwe.dto.DadosProfissionalReq;
-import ads.pwe.model.Profissional;
+import ads.pwe.dto.DadosProfissionalRes;
 import ads.pwe.repository.ProfissionalRepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
@@ -27,27 +27,36 @@ public class ProfissionalResource {
     ProfissionalRepository profissionalRepository;
     
     @GET
-    public List<Profissional> listarProfissionais() {
-        return profissionalRepository.listAll();
+    public List<DadosProfissionalRes> listarProfissionais() {
+        return profissionalRepository.listAll()
+            .stream()
+            .map(pro -> new DadosProfissionalRes(pro))
+            .toList();
     }
 
     @GET
     @Path("/{idProfissional}")
-    public Profissional encontrarProfissional(@RestPath Integer idProfissional) {
-        return profissionalRepository.encontrarProfissionalPorId(idProfissional);
+    public DadosProfissionalRes encontrarProfissional(@RestPath Integer idProfissional) {
+        return new DadosProfissionalRes(
+            profissionalRepository.encontrarProfissionalPorId(idProfissional)
+        );
     }
 
     @POST
-    public Profissional criarProfissional(DadosProfissionalReq dados) {
-        return profissionalRepository.salvarProfissional(dados);
+    public DadosProfissionalRes criarProfissional(DadosProfissionalReq dados) {
+        return new DadosProfissionalRes(
+            profissionalRepository.salvarProfissional(dados)
+        );
     }
 
     @PUT
     @Path("/{idProfissional}")
-    public Profissional editarProfissional(
+    public DadosProfissionalRes editarProfissional(
         @RestPath Integer idProfissional,
         DadosProfissionalReq dados) {
-        return profissionalRepository.editarProfissional(idProfissional, dados);
+        return new DadosProfissionalRes(
+            profissionalRepository.editarProfissional(idProfissional, dados)
+        );
     }
 
     @DELETE

@@ -8,7 +8,7 @@ import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 
 import ads.pwe.dto.CpfPacienteReq;
 import ads.pwe.dto.DadosPacienteReq;
-import ads.pwe.model.Paciente;
+import ads.pwe.dto.DadosPacienteRes;
 import ads.pwe.repository.PacienteRepository;
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -28,26 +28,35 @@ public class PacienteResource {
     PacienteRepository pacienteRepository;
 
     @GET
-    public List<Paciente> listarPacientes() {
-        return pacienteRepository.listAll();
+    public List<DadosPacienteRes> listarPacientes() {
+        return pacienteRepository.listAll()
+            .stream()
+            .map(paciente -> new DadosPacienteRes(paciente))
+            .toList();
     }
 
     @GET
     @Path("/encontrar")
-    public Paciente encontrarPaciente(@Valid CpfPacienteReq dados) {
-        return pacienteRepository.encontrarPacientePorCpf(dados.cpf());
+    public DadosPacienteRes encontrarPaciente(@Valid CpfPacienteReq dados) {
+        return new DadosPacienteRes(
+            pacienteRepository.encontrarPacientePorCpf(dados.cpf())
+        );
     }
 
     @POST
-    public Paciente criarPaciente(@Valid DadosPacienteReq dados) {
-        return pacienteRepository.salvarPaciente(dados);
+    public DadosPacienteRes criarPaciente(@Valid DadosPacienteReq dados) {
+        return new DadosPacienteRes(
+            pacienteRepository.salvarPaciente(dados)
+        );
     }
 
     @PUT
-    public Paciente editarPaciente(
+    public DadosPacienteRes editarPaciente(
         @Valid DadosPacienteReq dados
     ) {
-        return pacienteRepository.editarPaciente(dados);
+        return new DadosPacienteRes(
+            pacienteRepository.editarPaciente(dados)
+        );
     }
 
     @DELETE

@@ -8,7 +8,7 @@ import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 
 import ads.pwe.dto.DadosEspecialidadeReq;
-import ads.pwe.model.Especialidade;
+import ads.pwe.dto.DadosEspecialidadeRes;
 import ads.pwe.repository.EspecialidadeRepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.DELETE;
@@ -27,27 +27,36 @@ public class EspecialidadeResource {
     EspecialidadeRepository especialidadeRepository;
 
     @GET
-    public List<Especialidade> listarEspecialidades() {
-        return especialidadeRepository.listAll();
+    public List<DadosEspecialidadeRes> listarEspecialidades() {
+        return especialidadeRepository.listAll()
+            .stream()
+            .map(especialidade -> new DadosEspecialidadeRes(especialidade))
+            .toList();
     }
 
     @GET
     @Path("/{idEspecialidade}")
-    public Especialidade encontrarEspecialidade(@RestPath Integer idEspecialidade) {
-        return especialidadeRepository.encontrarEspecialidadePorId(idEspecialidade);
+    public DadosEspecialidadeRes encontrarEspecialidade(@RestPath Integer idEspecialidade) {
+        return new DadosEspecialidadeRes(
+            especialidadeRepository.encontrarEspecialidadePorId(idEspecialidade)
+        );
     }
 
     @POST
-    public Especialidade criarEspecialidade(DadosEspecialidadeReq dados) {
-        return especialidadeRepository.salvarEspecialidade(dados);
+    public DadosEspecialidadeRes criarEspecialidade(DadosEspecialidadeReq dados) {
+        return new DadosEspecialidadeRes(
+            especialidadeRepository.salvarEspecialidade(dados)
+        );
     }
 
     @PUT
     @Path("/{idEspecialidade}")
-    public Especialidade editarEspecialidade(
+    public DadosEspecialidadeRes editarEspecialidade(
         @RestPath Integer idEspecialidade,
         DadosEspecialidadeReq dados) {
-        return especialidadeRepository.editarEspecialidade(idEspecialidade, dados);
+        return new DadosEspecialidadeRes(
+            especialidadeRepository.editarEspecialidade(idEspecialidade, dados)
+        );
     }
 
     @DELETE

@@ -8,7 +8,7 @@ import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 
 import ads.pwe.dto.DadosAgendamentoReq;
-import ads.pwe.model.Agendamento;
+import ads.pwe.dto.DadosAgendamentoRes;
 import ads.pwe.repository.AgendamentoRepository;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.BadRequestException;
@@ -28,27 +28,36 @@ public class AgendamentoResource {
     AgendamentoRepository agendamentoRepository;
     
     @GET
-    public List<Agendamento> listarAgendamentos() {
-        return agendamentoRepository.listAll();
+    public List<DadosAgendamentoRes> listarAgendamentos() {
+        return agendamentoRepository.listAll()
+            .stream()
+            .map(agendamento -> new DadosAgendamentoRes(agendamento))
+            .toList();
     }
 
     @GET
     @Path("/{idAgendamento}")
-    public Agendamento encontrarAgendamento(@RestPath Integer idAgendamento) {
-        return agendamentoRepository.encontrarAgendamentoPorId(idAgendamento);
+    public DadosAgendamentoRes encontrarAgendamento(@RestPath Integer idAgendamento) {
+        return new DadosAgendamentoRes(
+            agendamentoRepository.encontrarAgendamentoPorId(idAgendamento)
+        );
     }
 
     @POST
-    public Agendamento criarAgendamento(DadosAgendamentoReq dados) {
-        return agendamentoRepository.salvarAgendamento(dados);
+    public DadosAgendamentoRes criarAgendamento(DadosAgendamentoReq dados) {
+        return new DadosAgendamentoRes(
+            agendamentoRepository.salvarAgendamento(dados)
+        );
     }
 
     @PUT
     @Path("/{idAgendamento}")
-    public Agendamento editarAgendamento(
+    public DadosAgendamentoRes editarAgendamento(
         @RestPath Integer idAgendamento,
         DadosAgendamentoReq dados) {
-        return agendamentoRepository.editarAgendamento(idAgendamento, dados);
+        return new DadosAgendamentoRes(
+            agendamentoRepository.editarAgendamento(idAgendamento, dados)
+        );
     }
 
     @DELETE

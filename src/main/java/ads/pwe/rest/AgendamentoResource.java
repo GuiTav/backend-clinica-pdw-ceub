@@ -11,6 +11,7 @@ import ads.pwe.dto.DadosAgendamentoReq;
 import ads.pwe.dto.DadosAgendamentoRes;
 import ads.pwe.repository.AgendamentoRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -62,6 +63,7 @@ public class AgendamentoResource {
 
     @DELETE
     @Path("/{idAgendamento}")
+    @Transactional
     public void deletarAgendamento(@RestPath Integer idAgendamento) {
         var agendamento = agendamentoRepository.encontrarAgendamentoPorId(idAgendamento);
         agendamentoRepository.delete(agendamento);

@@ -11,6 +11,7 @@ import ads.pwe.dto.DadosEspecialidadeReq;
 import ads.pwe.dto.DadosEspecialidadeRes;
 import ads.pwe.repository.EspecialidadeRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
@@ -61,6 +62,7 @@ public class EspecialidadeResource {
 
     @DELETE
     @Path("/{idEspecialidade}")
+    @Transactional
     public void deletarEspecialidade(@RestPath Integer idEspecialidade) {
         var especialidade = especialidadeRepository.encontrarEspecialidadePorId(idEspecialidade);
         especialidadeRepository.delete(especialidade);

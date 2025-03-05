@@ -11,6 +11,7 @@ import ads.pwe.dto.DadosOperacaoReq;
 import ads.pwe.dto.DadosOperacaoRes;
 import ads.pwe.repository.OperacaoRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
@@ -61,6 +62,7 @@ public class OperacaoResource {
 
     @DELETE
     @Path("/{idOperacao}")
+    @Transactional
     public void deletarOperacao(@RestPath Integer idOperacao) {
         var operacao = operacaoRepository.encontrarOperacaoPorId(idOperacao);
         operacaoRepository.delete(operacao);

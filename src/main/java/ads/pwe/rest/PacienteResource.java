@@ -11,6 +11,7 @@ import ads.pwe.dto.DadosPacienteReq;
 import ads.pwe.dto.DadosPacienteRes;
 import ads.pwe.repository.PacienteRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -60,6 +61,7 @@ public class PacienteResource {
     }
 
     @DELETE
+    @Transactional
     public void deletarPaciente(@Valid CpfPacienteReq dados) {
         var paciente = pacienteRepository.encontrarPacientePorCpf(dados.cpf());
         pacienteRepository.delete(paciente);

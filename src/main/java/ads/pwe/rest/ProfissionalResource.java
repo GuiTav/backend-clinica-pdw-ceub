@@ -11,6 +11,7 @@ import ads.pwe.dto.DadosProfissionalReq;
 import ads.pwe.dto.DadosProfissionalRes;
 import ads.pwe.repository.ProfissionalRepository;
 import jakarta.inject.Inject;
+import jakarta.transaction.Transactional;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
 import jakarta.ws.rs.NotFoundException;
@@ -61,6 +62,7 @@ public class ProfissionalResource {
 
     @DELETE
     @Path("/{idProfissional}")
+    @Transactional
     public void deletarProfissional(@RestPath Integer idProfissional) {
         var profissional = profissionalRepository.encontrarProfissionalPorId(idProfissional);
         profissionalRepository.delete(profissional);

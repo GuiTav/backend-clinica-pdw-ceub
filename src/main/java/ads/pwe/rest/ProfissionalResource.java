@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
 import org.jboss.resteasy.reactive.RestPath;
+import org.jboss.resteasy.reactive.RestQuery;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 
@@ -32,6 +33,19 @@ public class ProfissionalResource {
         return profissionalRepository.listAll()
             .stream()
             .map(pro -> new DadosProfissionalRes(pro))
+            .toList();
+    }
+
+    @GET
+    @Path("/busca-especialidade")
+    public List<DadosProfissionalRes> listarProfissionaisPorEspecialidades(
+        @RestQuery(value = "idEspecialidade") List<Integer> idsEspecialidades
+    ) {
+        return profissionalRepository.stream(
+            "SELECT DISTINCT p FROM Profissional p JOIN p.especialidades e WHERE e.idEspecialidade IN ?1",
+            idsEspecialidades
+        )
+            .map(prof -> new DadosProfissionalRes(prof))
             .toList();
     }
 

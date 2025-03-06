@@ -28,9 +28,9 @@ public class EspecialidadeResource {
     EspecialidadeRepository especialidadeRepository;
 
     @GET
+    @Transactional
     public List<DadosEspecialidadeRes> listarEspecialidades() {
-        return especialidadeRepository.listAll()
-            .stream()
+        return especialidadeRepository.streamAll()
             .map(especialidade -> new DadosEspecialidadeRes(especialidade))
             .toList();
     }
@@ -44,6 +44,7 @@ public class EspecialidadeResource {
     }
 
     @POST
+    @Transactional
     public DadosEspecialidadeRes criarEspecialidade(DadosEspecialidadeReq dados) {
         return new DadosEspecialidadeRes(
             especialidadeRepository.salvarEspecialidade(dados)
@@ -52,6 +53,7 @@ public class EspecialidadeResource {
 
     @PUT
     @Path("/{idEspecialidade}")
+    @Transactional
     public DadosEspecialidadeRes editarEspecialidade(
         @RestPath Integer idEspecialidade,
         DadosEspecialidadeReq dados) {

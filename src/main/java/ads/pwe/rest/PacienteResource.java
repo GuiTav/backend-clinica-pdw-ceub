@@ -29,14 +29,14 @@ public class PacienteResource {
     PacienteRepository pacienteRepository;
 
     @GET
+    @Transactional
     public List<DadosPacienteRes> listarPacientes() {
-        return pacienteRepository.listAll()
-            .stream()
+        return pacienteRepository.streamAll()
             .map(paciente -> new DadosPacienteRes(paciente))
             .toList();
     }
 
-    @GET
+    @POST
     @Path("/encontrar")
     public DadosPacienteRes encontrarPaciente(@Valid CpfPacienteReq dados) {
         return new DadosPacienteRes(
@@ -45,6 +45,7 @@ public class PacienteResource {
     }
 
     @POST
+    @Transactional
     public DadosPacienteRes criarPaciente(@Valid DadosPacienteReq dados) {
         return new DadosPacienteRes(
             pacienteRepository.salvarPaciente(dados)
@@ -52,6 +53,7 @@ public class PacienteResource {
     }
 
     @PUT
+    @Transactional
     public DadosPacienteRes editarPaciente(
         @Valid DadosPacienteReq dados
     ) {

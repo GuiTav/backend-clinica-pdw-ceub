@@ -7,11 +7,13 @@ import org.jboss.resteasy.reactive.RestPath;
 import org.jboss.resteasy.reactive.RestResponse;
 import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 
+import ads.pwe.dto.CpfPacienteReq;
 import ads.pwe.dto.DadosAgendamentoReq;
 import ads.pwe.dto.DadosAgendamentoRes;
 import ads.pwe.repository.AgendamentoRepository;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.DELETE;
 import jakarta.ws.rs.GET;
@@ -29,9 +31,18 @@ public class AgendamentoResource {
     AgendamentoRepository agendamentoRepository;
     
     @GET
+    @Transactional
     public List<DadosAgendamentoRes> listarAgendamentos() {
-        return agendamentoRepository.listAll()
-            .stream()
+        return agendamentoRepository.streamAll()
+            .map(agendamento -> new DadosAgendamentoRes(agendamento))
+            .toList();
+    }
+
+    @POST
+    @Path("/paciente")
+    @Transactional
+    public List<DadosAgendamentoRes> listarAgendamentosPorPaciente(@Valid CpfPacienteReq dados) {
+        return agendamentoRepository.stream("paciente.cpfPaciente = ?1", dados.cpf())
             .map(agendamento -> new DadosAgendamentoRes(agendamento))
             .toList();
     }
@@ -45,6 +56,7 @@ public class AgendamentoResource {
     }
 
     @POST
+    @Transactional
     public DadosAgendamentoRes criarAgendamento(DadosAgendamentoReq dados) {
         return new DadosAgendamentoRes(
             agendamentoRepository.salvarAgendamento(dados)
@@ -53,6 +65,7 @@ public class AgendamentoResource {
 
     @PUT
     @Path("/{idAgendamento}")
+    @Transactional
     public DadosAgendamentoRes editarAgendamento(
         @RestPath Integer idAgendamento,
         DadosAgendamentoReq dados) {

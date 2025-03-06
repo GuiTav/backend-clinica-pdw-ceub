@@ -28,9 +28,9 @@ public class OperacaoResource {
     OperacaoRepository operacaoRepository;
 
     @GET
+    @Transactional
     public List<DadosOperacaoRes> listarOperacoes() {
-        return operacaoRepository.listAll()
-            .stream()
+        return operacaoRepository.streamAll()
             .map(operacao -> new DadosOperacaoRes(operacao))
             .toList();
     }
@@ -44,6 +44,7 @@ public class OperacaoResource {
     }
 
     @POST
+    @Transactional
     public DadosOperacaoRes criarOperacao(DadosOperacaoReq dados) {
         return new DadosOperacaoRes(
             operacaoRepository.salvarOperacao(dados)
@@ -52,6 +53,7 @@ public class OperacaoResource {
 
     @PUT
     @Path("/{idOperacao}")
+    @Transactional
     public DadosOperacaoRes editarOperacao(
         @RestPath Integer idOperacao,
         DadosOperacaoReq dados) {

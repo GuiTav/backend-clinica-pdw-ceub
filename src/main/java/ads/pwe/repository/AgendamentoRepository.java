@@ -11,7 +11,6 @@ import ads.pwe.util.LocalDateTimeUtils;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.BadRequestException;
 import jakarta.ws.rs.NotFoundException;
 
@@ -27,7 +26,6 @@ public class AgendamentoRepository implements PanacheRepositoryBase<Agendamento,
     @Inject
     ProfissionalRepository profissionalRepository;
 
-    @Transactional
     public Agendamento salvarAgendamento(DadosAgendamentoReq dados) {
         var paciente = pacienteRepository.encontrarPacientePorCpf(dados.cpfPaciente());
         var operacao = operacaoRepository.encontrarOperacaoPorId(dados.idOperacao());
@@ -48,7 +46,6 @@ public class AgendamentoRepository implements PanacheRepositoryBase<Agendamento,
         return agendamento;
     }
 
-    @Transactional
     public Agendamento editarAgendamento(Integer idAgendamento, DadosAgendamentoReq dados) {
         var agendamento = encontrarAgendamentoPorId(idAgendamento);
         var paciente = pacienteRepository.encontrarPacientePorCpf(dados.cpfPaciente());

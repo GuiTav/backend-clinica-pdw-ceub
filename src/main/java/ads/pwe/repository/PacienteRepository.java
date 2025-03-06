@@ -4,13 +4,11 @@ import ads.pwe.dto.DadosPacienteReq;
 import ads.pwe.model.Paciente;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class PacienteRepository implements PanacheRepositoryBase<Paciente, String> {
     
-    @Transactional
     public Paciente salvarPaciente(DadosPacienteReq dados) {
         var paciente = new Paciente();
 
@@ -20,7 +18,6 @@ public class PacienteRepository implements PanacheRepositoryBase<Paciente, Strin
         return paciente;
     }
 
-    @Transactional
     public Paciente editarPaciente(DadosPacienteReq dados) {
         var paciente = encontrarPacientePorCpf(dados.cpfPaciente());
         

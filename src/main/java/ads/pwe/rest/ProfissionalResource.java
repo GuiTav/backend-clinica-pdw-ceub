@@ -29,15 +29,16 @@ public class ProfissionalResource {
     ProfissionalRepository profissionalRepository;
     
     @GET
+    @Transactional
     public List<DadosProfissionalRes> listarProfissionais() {
-        return profissionalRepository.listAll()
-            .stream()
+        return profissionalRepository.streamAll()
             .map(pro -> new DadosProfissionalRes(pro))
             .toList();
     }
 
     @GET
     @Path("/busca-especialidade")
+    @Transactional
     public List<DadosProfissionalRes> listarProfissionaisPorEspecialidades(
         @RestQuery(value = "idEspecialidade") List<Integer> idsEspecialidades
     ) {
@@ -58,6 +59,7 @@ public class ProfissionalResource {
     }
 
     @POST
+    @Transactional
     public DadosProfissionalRes criarProfissional(DadosProfissionalReq dados) {
         return new DadosProfissionalRes(
             profissionalRepository.salvarProfissional(dados)
@@ -66,6 +68,7 @@ public class ProfissionalResource {
 
     @PUT
     @Path("/{idProfissional}")
+    @Transactional
     public DadosProfissionalRes editarProfissional(
         @RestPath Integer idProfissional,
         DadosProfissionalReq dados) {

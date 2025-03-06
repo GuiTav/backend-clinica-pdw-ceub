@@ -6,13 +6,11 @@ import ads.pwe.dto.DadosEspecialidadeReq;
 import ads.pwe.model.Especialidade;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
 public class EspecialidadeRepository implements PanacheRepositoryBase<Especialidade, Integer> {
     
-    @Transactional
     public Especialidade salvarEspecialidade(DadosEspecialidadeReq dados) {
         var especialidade = new Especialidade();
         especialidade.setNomeEspecialidade(dados.nomeEspecialidade());
@@ -20,7 +18,6 @@ public class EspecialidadeRepository implements PanacheRepositoryBase<Especialid
         return especialidade;
     }
 
-    @Transactional
     public Especialidade editarEspecialidade(Integer idEspecialidade, DadosEspecialidadeReq dados) {
         var especialidade = encontrarEspecialidadePorId(idEspecialidade);
         

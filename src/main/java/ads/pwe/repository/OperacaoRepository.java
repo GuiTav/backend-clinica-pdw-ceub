@@ -5,7 +5,6 @@ import ads.pwe.model.Operacao;
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
-import jakarta.transaction.Transactional;
 import jakarta.ws.rs.NotFoundException;
 
 @ApplicationScoped
@@ -14,7 +13,6 @@ public class OperacaoRepository implements PanacheRepositoryBase<Operacao, Integ
     @Inject
     EspecialidadeRepository especialidadeRepository;
 
-    @Transactional
     public Operacao salvarOperacao(DadosOperacaoReq dados) {
         var especialidade = especialidadeRepository.encontrarEspecialidadePorId(dados.idEspecialidade());
 
@@ -27,7 +25,6 @@ public class OperacaoRepository implements PanacheRepositoryBase<Operacao, Integ
         return operacao;
     }
 
-    @Transactional
     public Operacao editarOperacao(Integer idOperacao, DadosOperacaoReq dados) {
         var operacao = encontrarOperacaoPorId(idOperacao);
         

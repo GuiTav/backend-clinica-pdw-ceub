@@ -6,8 +6,8 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
@@ -18,16 +18,16 @@ import lombok.Data;
 public class Profissional {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idProfissional;
 
     private String nomeProfissional;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JsonManagedReference
     private List<Especialidade> especialidades = new ArrayList<>();
 
-    @OneToMany
+    @OneToMany(mappedBy = "profissional")
     private List<Agendamento> agendamentos = new ArrayList<>();
 
 }

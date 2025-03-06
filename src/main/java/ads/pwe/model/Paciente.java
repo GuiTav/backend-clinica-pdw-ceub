@@ -22,7 +22,7 @@ public class Paciente {
 
     private String nomePaciente;
 
-    @OneToMany
+    @OneToMany(mappedBy = "paciente")
     private List<Agendamento> agendamentos = new ArrayList<>();
     
 }

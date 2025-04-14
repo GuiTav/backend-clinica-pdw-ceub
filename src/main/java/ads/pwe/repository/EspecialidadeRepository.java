@@ -25,6 +25,12 @@ public class EspecialidadeRepository implements PanacheRepositoryBase<Especialid
         return especialidade;
     }
 
+    public void excluirEspecialidade(Integer idEspecialidade) {
+        var especialidade = encontrarEspecialidadePorId(idEspecialidade);
+        especialidade.getProfissionais().forEach(profissional -> profissional.getEspecialidades().remove(especialidade));
+        delete(especialidade);
+    }
+
     public Especialidade encontrarEspecialidadePorId(Integer id) {
         return findByIdOptional(id)
             .orElseThrow(

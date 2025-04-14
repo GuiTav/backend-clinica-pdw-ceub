@@ -66,8 +66,7 @@ public class EspecialidadeResource {
     @Path("/{idEspecialidade}")
     @Transactional
     public void deletarEspecialidade(@RestPath Integer idEspecialidade) {
-        var especialidade = especialidadeRepository.encontrarEspecialidadePorId(idEspecialidade);
-        especialidadeRepository.delete(especialidade);
+        especialidadeRepository.excluirEspecialidade(idEspecialidade);
     }
 
     @ServerExceptionMapper

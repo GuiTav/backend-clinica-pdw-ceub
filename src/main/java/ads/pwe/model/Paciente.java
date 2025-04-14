@@ -3,6 +3,7 @@ package ads.pwe.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
@@ -22,7 +23,7 @@ public class Paciente {
 
     private String nomePaciente;
 
-    @OneToMany(mappedBy = "paciente")
+    @OneToMany(mappedBy = "paciente", cascade = CascadeType.ALL)
     private List<Agendamento> agendamentos = new ArrayList<>();
     
 }

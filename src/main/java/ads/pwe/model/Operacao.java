@@ -2,6 +2,7 @@ package ads.pwe.model;
 
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class Operacao {
     @ManyToOne
     private Especialidade especialidade;
 
-    @OneToMany(mappedBy = "operacao")
+    @OneToMany(mappedBy = "operacao", cascade = CascadeType.ALL)
     private List<Agendamento> agendamentos;
 
 }

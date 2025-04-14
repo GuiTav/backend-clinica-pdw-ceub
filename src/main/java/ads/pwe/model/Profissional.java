@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,7 @@ public class Profissional {
     @JsonManagedReference
     private List<Especialidade> especialidades = new ArrayList<>();
 
-    @OneToMany(mappedBy = "profissional")
+    @OneToMany(mappedBy = "profissional", cascade = CascadeType.ALL)
     private List<Agendamento> agendamentos = new ArrayList<>();
 
 }

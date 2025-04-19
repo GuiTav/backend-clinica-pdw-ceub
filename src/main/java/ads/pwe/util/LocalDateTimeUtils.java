@@ -9,7 +9,7 @@ public class LocalDateTimeUtils {
         LocalDateTime inicioPeriodo,
         LocalDateTime fimPeriodo
     ) {
-        return inicioPeriodo.isBefore(timestamp) && fimPeriodo.isAfter(timestamp);
+        return inicioPeriodo.isEqual(timestamp) || fimPeriodo.isEqual(timestamp) || (inicioPeriodo.isBefore(timestamp) && fimPeriodo.isAfter(timestamp));
     }
 
 }

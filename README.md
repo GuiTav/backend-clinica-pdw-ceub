@@ -11,6 +11,8 @@ O projeto foi criado em Java 21, utilizando o framework Quarkus. O Banco de Dado
 *Para executar em modo de desenvolvimento, é necessário a instalação do Java 21 na máquina, bem como a devida configuração do "JAVA_HOME".*
 *Para executar pelo Docker, é necessária a instalação e configuração básica do Docker*
 
+Após a execução dos comandos, será possível encontrar uma página de documentação dos endpoints disponíveis em http://localhost:8080/api-docs
+
 ### Modo desenvolvimento
 
 Em linux:
@@ -49,3 +51,13 @@ Em windows (CMD ou PowerShell):
 ```
 .\run\run.cmd
 ```
+
+Aguarde até a seguinte mensagem aparecer no log para poder acessar a página de documentação dos endpoints:
+
+```
+api_clinica  | 2025-04-20 17:28:18,865 INFO  [io.quarkus] (main) backend-clinica-pdw-ceub 1.0.0-SNAPSHOT on JVM (powered by Quarkus 3.18.4) started in 24.041s. Listening on: http://0.0.0.0:8080
+api_clinica  | 2025-04-20 17:28:18,880 INFO  [io.quarkus] (main) Profile prod activated. 
+api_clinica  | 2025-04-20 17:28:18,881 INFO  [io.quarkus] (main) Installed features: [agroal, cdi, hibernate-orm, hibernate-orm-panache, hibernate-validator, jdbc-h2, jdbc-mysql, narayana-jta, rest, rest-jackson, smallrye-context-propagation, smallrye-health, smallrye-openapi, swagger-ui, vertx]
+```
+
+*Caso seja exibida uma mensagem de erro durante a subida do container "api_clinica", permaneça aguardando. Ela representa uma falha de conexão inicial, no qual o MySQL ainda está inicializando e ainda não está preparado para conexão. O Quarkus entra em fluxo de retentativa para estabelecer a comunicação entre os containers, e assim que esta ocorre, o log mencionado acima é exibido.*
